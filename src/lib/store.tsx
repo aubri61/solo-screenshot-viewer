@@ -60,7 +60,7 @@ function seed(): State {
     ],
     bookings: [
       // 내가 빌린 차: 소유자 승인 완료, 내 서명 필요
-      { id: "b1", carId: "c2", renterId: ME, renterName: "야옹이좋아", start: base + 26 * HOUR, end: base + 30 * HOUR, price: 13500, status: "CONTRACT", createdAt: base - 5 * HOUR, ownerSign: undefined, key: "LOCKED" },
+      { id: "b1", carId: "c2", renterId: ME, renterName: "야옹이좋아", start: base + 26 * HOUR, end: base + 30 * HOUR, price: 13500, status: "CONTRACT", createdAt: base - 5 * HOUR, key: "LOCKED" },
       // 내가 빌린 차: 승인 대기
       { id: "b2", carId: "c3", renterId: ME, renterName: "야옹이좋아", start: base + 50 * HOUR, end: base + 59 * HOUR, price: 15000, status: "PENDING", createdAt: base - 2 * HOUR, key: "LOCKED" },
       // 내 차에 들어온 새 신청
@@ -138,7 +138,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const value = useMemo<Ctx>(() => ({
     ...state, hydrated,
     login: (email, name) => up((s) => {
-      const n = name || s.user?.name || email.split("@")[0];
+      const n: string = name || s.user?.name || email.split("@")[0] || "회원";
       return { ...s, user: { id: ME, name: n, email },
         cars: s.cars.map((c) => c.ownerId === ME ? { ...c, ownerName: n } : c),
         bookings: s.bookings.map((b) => b.renterId === ME ? { ...b, renterName: n } : b) };
